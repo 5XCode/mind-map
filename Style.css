@@ -4,71 +4,157 @@
     box-sizing: border-box;
 }
 
+:root {
+    --primary-color: #6366f1;
+    --secondary-color: #8b5cf6;
+    --accent-color: #06d6a0;
+    --danger-color: #ef4444;
+    --bg-color: #1e1e2e;
+    --surface-color: #2d2d3a;
+    --text-color: #f8fafc;
+    --border-color: #4b5563;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bg-color);
+    color: var(--text-color);
     height: 100vh;
     overflow: hidden;
     direction: rtl;
 }
 
-/* شريط الأدوات */
-.toolbar {
+/* شريط التحكم */
+.control-bar {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 10px;
+    background: rgba(45, 45, 58, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 12px 20px;
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-.toolbar button {
-    padding: 8px 15px;
+.controls-left, .controls-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-btn {
+    padding: 8px 16px;
     border: none;
-    background: #4CAF50;
-    color: white;
-    border-radius: 5px;
+    background: var(--surface-color);
+    color: var(--text-color);
+    border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
-    transition: background 0.3s;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--border-color);
 }
 
-.toolbar button:hover {
-    background: #45a049;
+.control-btn:hover {
+    background: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
-/* منطقة الخريطة */
+.control-btn .icon {
+    font-size: 16px;
+}
+
+.control-btn .text {
+    font-weight: 500;
+}
+
+.view-mode.active {
+    background: var(--accent-color);
+    color: #000;
+}
+
+.zoom-level {
+    padding: 8px 12px;
+    background: var(--surface-color);
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* المساحة الرئيسية */
 .mind-map-container {
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     position: relative;
-    perspective: 1000px;
-    margin-top: 60px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.1);
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+        var(--bg-color);
+    cursor: grab;
+    margin-top: 60px;
+}
+
+.mind-map-container:active {
+    cursor: grabbing;
+}
+
+.mind-map {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform 0.3s ease;
+    width: 10000px;
+    height: 10000px;
 }
 
 /* المستطيلات */
-.node {
+.mind-node {
     position: absolute;
-    width: 200px;
-    min-height: 100px;
-    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-    border: 2px solid #ff6b6b;
-    border-radius: 10px;
+    min-width: 120px;
+    min-height: 60px;
+    background: linear-gradient(135deg, var(--surface-color), #3a3a4a);
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
     padding: 15px;
     cursor: move;
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
     transform-style: preserve-3d;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    transform: translateZ(0);
+    backdrop-filter: blur(10px);
 }
 
-.node:hover {
-    transform: translateZ(20px) rotateX(5deg);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+.mind-node:hover {
+    transform: translateZ(20px) scale(1.05);
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.4),
+        0 0 0 1px var(--accent-color),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-color: var(--accent-color);
+}
+
+.mind-node.dragging {
+    transform: translateZ(30px) scale(1.1);
+    z-index: 1000;
+    cursor: grabbing;
+}
+
+.mind-node.selected {
+    border-color: var(--accent-color);
+    box-shadow: 
+        0 0 0 3px rgba(6, 214, 160, 0.3),
+        0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
 .node-content {
@@ -79,118 +165,267 @@ body {
     resize: none;
     font-size: 14px;
     line-height: 1.4;
-    color: #333;
+    color: var(--text-color);
     font-family: inherit;
-}
-
-.node-content:focus {
+    text-align: center;
     outline: none;
+    overflow: hidden;
 }
 
-/* الأزرار على المستطيل */
-.node-controls {
+.node-content::placeholder {
+    color: #94a3b8;
+}
+
+/* أزرار الإضافة على الجوانب */
+.node-sides {
     position: absolute;
-    top: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 5px;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
 }
 
-.control-btn {
-    width: 20px;
-    height: 20px;
+.side-btn {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: var(--accent-color);
     border: none;
     border-radius: 50%;
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-    font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
+    pointer-events: all;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    opacity: 0;
 }
 
-.add-child {
-    background: #4CAF50;
-    color: white;
+.mind-node:hover .side-btn {
+    opacity: 1;
 }
 
-.delete-node {
-    background: #f44336;
-    color: white;
+.side-btn:hover {
+    transform: scale(1.2);
+    background: #05c290;
+}
+
+.side-top {
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.side-right {
+    top: 50%;
+    right: -12px;
+    transform: translateY(-50%);
+}
+
+.side-bottom {
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.side-left {
+    top: 50%;
+    left: -12px;
+    transform: translateY(-50%);
 }
 
 /* الأسلاك */
 .connection {
     position: absolute;
-    background: #333;
-    height: 2px;
+    background: var(--primary-color);
+    height: 3px;
     transform-origin: 0 0;
     pointer-events: none;
     z-index: -1;
+    transition: all 0.3s ease;
 }
 
-/* النافذة المنبثقة */
-.modal {
-    display: none;
+.connection.dashed {
+    background: repeating-linear-gradient(
+        to right,
+        var(--primary-color),
+        var(--primary-color) 5px,
+        transparent 5px,
+        transparent 10px
+    );
+}
+
+.connection.dotted {
+    background: radial-gradient(
+        circle at center,
+        var(--primary-color) 2px,
+        transparent 2px
+    );
+    background-size: 10px 100%;
+}
+
+/* نافذة الإعدادات */
+.settings-panel {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    z-index: 2000;
-}
-
-.modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
+    top: 70px;
+    left: 20px;
+    background: var(--surface-color);
     padding: 20px;
-    border-radius: 10px;
-    width: 300px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    z-index: 1001;
+    border: 1px solid var(--border-color);
+    min-width: 250px;
+    display: none;
 }
 
-.modal textarea {
+.settings-panel.show {
+    display: block;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.setting-group {
+    margin-bottom: 15px;
+}
+
+.setting-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #cbd5e1;
+}
+
+.setting-group input,
+.setting-group select {
     width: 100%;
-    height: 100px;
-    margin: 10px 0;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    resize: none;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* تأثير الانفجار */
+.explosion-effect {
+    position: fixed;
+    pointer-events: none;
+    z-index: 2000;
+    display: none;
+}
+
+.explosion-particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    pointer-events: none;
 }
 
 /* التجاوب مع الشاشات المختلفة */
 @media (max-width: 768px) {
-    .toolbar {
-        flex-wrap: wrap;
-        padding: 5px;
+    .control-bar {
+        padding: 8px 12px;
     }
     
-    .toolbar button {
-        flex: 1;
-        min-width: 120px;
+    .control-btn .text {
+        display: none;
+    }
+    
+    .control-btn {
+        padding: 10px;
+    }
+    
+    .mind-node {
+        min-width: 100px;
+        min-height: 50px;
+        padding: 10px;
+    }
+    
+    .node-content {
         font-size: 12px;
-        padding: 6px 10px;
     }
     
-    .node {
-        width: 150px;
-        min-height: 80px;
-    }
-    
-    .modal-content {
-        width: 90%;
-        margin: 0 auto;
+    .side-btn {
+        width: 20px;
+        height: 20px;
+        font-size: 14px;
     }
 }
 
 @media (max-width: 480px) {
-    .node {
-        width: 120px;
-        min-height: 60px;
-        font-size: 12px;
+    .control-bar {
+        flex-direction: column;
+        gap: 8px;
+        height: auto;
+    }
+    
+    .controls-left, .controls-right {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .mind-map-container {
+        margin-top: 100px;
+    }
+}
+
+/* تأثيرات التمرير */
+.mind-map-container::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+.mind-map-container::-webkit-scrollbar-track {
+    background: var(--surface-color);
+    border-radius: 6px;
+}
+
+.mind-map-container::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 6px;
+    border: 2px solid var(--surface-color);
+}
+
+.mind-map-container::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+/* تحسينات للأجهزة التي تدعم اللمس */
+@media (hover: none) {
+    .side-btn {
+        opacity: 1;
+    }
+    
+    .mind-node:hover {
+        transform: none;
     }
 }
