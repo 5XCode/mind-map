@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الخريطة الذهنية ثلاثية الأبعاد</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- شريط الأدوات -->
+    <div class="toolbar">
+        <button id="addNode" onclick="addNewNode()">➕ إضافة مستطيل</button>
+        <button id="saveMap" onclick="saveMap()">💾 حفظ الخريطة</button>
+        <button id="loadMap" onclick="loadMap()">📂 تحميل الخريطة</button>
+        <button id="reset" onclick="resetMap()">🔄 بدء من جديد</button>
+    </div>
+
+    <!-- منطقة الخريطة -->
+    <div id="mindMap" class="mind-map-container">
+        <!-- المستطيلات ستضاف هنا ديناميكياً -->
+    </div>
+
+    <!-- نافذة النص -->
+    <div id="textModal" class="modal">
+        <div class="modal-content">
+            <h3>أضف نصك</h3>
+            <textarea id="nodeText" placeholder="اكتب نصك هنا..."></textarea>
+            <button onclick="saveText()">حفظ</button>
+            <button onclick="closeModal()">إلغاء</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
