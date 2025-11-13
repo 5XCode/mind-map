@@ -1,431 +1,519 @@
+/* style.css */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 :root {
-    --primary-color: #6366f1;
-    --secondary-color: #8b5cf6;
-    --accent-color: #06d6a0;
-    --danger-color: #ef4444;
-    --bg-color: #1e1e2e;
-    --surface-color: #2d2d3a;
-    --text-color: #f8fafc;
-    --border-color: #4b5563;
+    --primary-color: #4a6ee0;
+    --secondary-color: #6c63ff;
+    --accent-color: #ff6584;
+    --dark-color: #2d3748;
+    --light-color: #f8fafc;
+    --success-color: #48bb78;
+    --warning-color: #ed8936;
+    --danger-color: #f56565;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
+    --border-radius: 12px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: var(--bg-color);
-    color: var(--text-color);
-    height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: var(--dark-color);
     overflow: hidden;
-    direction: rtl;
-}
-
-/* شريط التحكم */
-.control-bar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: rgba(45, 45, 58, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 12px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1000;
-    border-bottom: 1px solid var(--border-color);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.controls-left, .controls-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.control-btn {
-    padding: 8px 16px;
-    border: none;
-    background: var(--surface-color);
-    color: var(--text-color);
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    border: 1px solid var(--border-color);
-}
-
-.control-btn:hover {
-    background: var(--primary-color);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-}
-
-.control-btn .icon {
-    font-size: 16px;
-}
-
-.control-btn .text {
-    font-weight: 500;
-}
-
-.view-mode.active {
-    background: var(--accent-color);
-    color: #000;
-}
-
-.zoom-level {
-    padding: 8px 12px;
-    background: var(--surface-color);
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-/* المساحة الرئيسية */
-.mind-map-container {
+    height: 100vh;
     width: 100vw;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-    background: 
-        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-        var(--bg-color);
-    cursor: grab;
-    margin-top: 60px;
+    font-size: 16px;
+    line-height: 1.6;
 }
 
-.mind-map-container:active {
-    cursor: grabbing;
-}
-
-.mind-map {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1);
-    transition: transform 0.3s ease;
-    width: 10000px;
-    height: 10000px;
-}
-
-/* المستطيلات */
-.mind-node {
-    position: absolute;
-    min-width: 120px;
-    min-height: 60px;
-    background: linear-gradient(135deg, var(--surface-color), #3a3a4a);
-    border: 2px solid var(--primary-color);
-    border-radius: 12px;
-    padding: 15px;
-    cursor: move;
-    box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
-    transform-style: preserve-3d;
-    transform: translateZ(0);
-    backdrop-filter: blur(10px);
-}
-
-.mind-node:hover {
-    transform: translateZ(20px) scale(1.05);
-    box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.4),
-        0 0 0 1px var(--accent-color),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    border-color: var(--accent-color);
-}
-
-.mind-node.dragging {
-    transform: translateZ(30px) scale(1.1);
-    z-index: 1000;
-    cursor: grabbing;
-}
-
-.mind-node.selected {
-    border-color: var(--accent-color);
-    box-shadow: 
-        0 0 0 3px rgba(6, 214, 160, 0.3),
-        0 15px 35px rgba(0, 0, 0, 0.4);
-}
-
-.node-content {
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    border: none;
-    resize: none;
-    font-size: 14px;
-    line-height: 1.4;
-    color: var(--text-color);
-    font-family: inherit;
-    text-align: center;
-    outline: none;
-    overflow: hidden;
-}
-
-.node-content::placeholder {
-    color: #94a3b8;
-}
-
-/* أزرار الإضافة على الجوانب */
-.node-sides {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+/* شريط الأدوات العلوي */
+.toolbar {
+    position: fixed;
     top: 0;
     left: 0;
-    pointer-events: none;
+    right: 0;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.side-btn {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    background: var(--accent-color);
-    border: none;
-    border-radius: 50%;
-    color: #000;
-    font-size: 16px;
-    font-weight: bold;
+.toolbar-left,
+.toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.toolbar-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.app-title {
+    font-size: 24px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.toolbar-btn {
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid transparent;
+    border-radius: var(--border-radius);
+    padding: 12px 20px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: center;
-    pointer-events: all;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    opacity: 0;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark-color);
+    transition: var(--transition);
+    box-shadow: var(--shadow);
 }
 
-.mind-node:hover .side-btn {
-    opacity: 1;
+.toolbar-btn:hover {
+    background: white;
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
-.side-btn:hover {
-    transform: scale(1.2);
-    background: #05c290;
+.toolbar-btn .icon {
+    font-size: 18px;
+    font-weight: bold;
 }
 
-.side-top {
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
+.toolbar-btn .text {
+    white-space: nowrap;
 }
 
-.side-right {
-    top: 50%;
-    right: -12px;
-    transform: translateY(-50%);
-}
-
-.side-bottom {
-    bottom: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.side-left {
-    top: 50%;
-    left: -12px;
-    transform: translateY(-50%);
-}
-
-/* الأسلاك */
-.connection {
-    position: absolute;
-    background: var(--primary-color);
-    height: 3px;
-    transform-origin: 0 0;
-    pointer-events: none;
-    z-index: -1;
-    transition: all 0.3s ease;
-}
-
-.connection.dashed {
-    background: repeating-linear-gradient(
-        to right,
-        var(--primary-color),
-        var(--primary-color) 5px,
-        transparent 5px,
-        transparent 10px
-    );
-}
-
-.connection.dotted {
-    background: radial-gradient(
-        circle at center,
-        var(--primary-color) 2px,
-        transparent 2px
-    );
-    background-size: 10px 100%;
-}
-
-/* نافذة الإعدادات */
-.settings-panel {
+/* اللوحة الجانبية */
+.sidebar {
     position: fixed;
-    top: 70px;
+    top: 90px;
     left: 20px;
-    background: var(--surface-color);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-    z-index: 1001;
-    border: 1px solid var(--border-color);
-    min-width: 250px;
-    display: none;
+    width: 280px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    padding: 25px;
+    z-index: 999;
+    transform: translateX(0);
+    transition: var(--transition);
 }
 
-.settings-panel.show {
-    display: block;
-    animation: slideIn 0.3s ease;
+.sidebar.hidden {
+    transform: translateX(-320px);
 }
 
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+.sidebar-section {
+    margin-bottom: 30px;
 }
 
-.setting-group {
+.sidebar-section h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(74, 110, 224, 0.2);
+}
+
+.property-group {
     margin-bottom: 15px;
 }
 
-.setting-group label {
+.property-group label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-    color: #cbd5e1;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--dark-color);
 }
 
-.setting-group input,
-.setting-group select {
+.property-group input,
+.property-group select {
     width: 100%;
-    padding: 8px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    background: var(--bg-color);
-    color: var(--text-color);
+    padding: 10px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: var(--transition);
+    background: white;
 }
 
-.close-btn {
+.property-group input:focus,
+.property-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 110, 224, 0.1);
+}
+
+/* مساحة العمل الرئيسية */
+.canvas-container {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    color: var(--text-color);
-    font-size: 18px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    cursor: grab;
+}
+
+.canvas-container:active {
+    cursor: grabbing;
+}
+
+/* العقد ثلاثية الأبعاد */
+.node-3d {
+    position: absolute;
+    transform-style: preserve-3d;
+    transition: var(--transition);
     cursor: pointer;
-    padding: 5px;
+    z-index: 10;
 }
 
-/* تأثير الانفجار */
-.explosion-effect {
-    position: fixed;
-    pointer-events: none;
-    z-index: 2000;
-    display: none;
+.node-content {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow-lg);
+    border: 3px solid transparent;
+    transition: var(--transition);
+    min-width: 180px;
+    max-width: 300px;
+    backdrop-filter: blur(10px);
 }
 
-.explosion-particle {
+.node-content:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.node-content.editing {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(255, 101, 132, 0.2);
+}
+
+.node-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark-color);
+    text-align: center;
+    word-break: break-word;
+    line-height: 1.4;
+    min-height: 20px;
+}
+
+.node-connectors {
     position: absolute;
-    width: 8px;
-    height: 8px;
-    background: var(--accent-color);
-    border-radius: 50%;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
     pointer-events: none;
 }
 
-/* التجاوب مع الشاشات المختلفة */
+.connector {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    pointer-events: all;
+    z-index: 20;
+    border: 2px solid white;
+}
+
+.connector:hover {
+    transform: scale(1.2);
+    box-shadow: var(--shadow-lg);
+}
+
+.connector.top {
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.connector.right {
+    right: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.connector.bottom {
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.connector.left {
+    left: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.node-close {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, var(--danger-color), #e53e3e);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 30;
+    opacity: 0;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    border: 2px solid white;
+}
+
+.node-3d:hover .node-close {
+    opacity: 1;
+}
+
+.node-close:hover {
+    transform: scale(1.2);
+}
+
+/* الاتصالات */
+.connection-3d {
+    position: absolute;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.connection-line {
+    stroke: var(--primary-color);
+    stroke-width: 3;
+    fill: none;
+    stroke-linecap: round;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.connection-line.animated {
+    stroke-dasharray: 10;
+    animation: dash 1s linear infinite;
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: -20;
+    }
+}
+
+/* النافذة المنبثقة */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: left;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    left: 20px;
+    top: 15px;
+}
+
+.close:hover {
+    color: var(--danger-color);
+}
+
+/* تأثيرات ثلاثية الأبعاد */
+.perspective-container {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+.zoom-controls {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.zoom-btn {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    box-shadow: var(--shadow);
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.zoom-btn:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-lg);
+}
+
+/* تأثيرات التحريك */
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotateX(0deg); }
+    50% { transform: translateY(-10px) rotateX(5deg); }
+}
+
+.floating {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.pulsing {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* التكيف مع الأجهزة المحمولة */
 @media (max-width: 768px) {
-    .control-bar {
-        padding: 8px 12px;
+    .toolbar {
+        padding: 0 15px;
+        height: 60px;
     }
     
-    .control-btn .text {
+    .toolbar-btn .text {
         display: none;
     }
     
-    .control-btn {
-        padding: 10px;
-    }
-    
-    .mind-node {
-        min-width: 100px;
-        min-height: 50px;
-        padding: 10px;
+    .sidebar {
+        width: 250px;
+        left: 10px;
     }
     
     .node-content {
-        font-size: 12px;
+        min-width: 150px;
+        max-width: 200px;
+        padding: 15px;
     }
     
-    .side-btn {
-        width: 20px;
-        height: 20px;
+    .node-text {
         font-size: 14px;
     }
 }
 
-@media (max-width: 480px) {
-    .control-bar {
-        flex-direction: column;
-        gap: 8px;
-        height: auto;
-    }
-    
-    .controls-left, .controls-right {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .mind-map-container {
-        margin-top: 100px;
-    }
+/* شريط التمرير المخصص */
+::-webkit-scrollbar {
+    width: 8px;
 }
 
-/* تأثيرات التمرير */
-.mind-map-container::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
 }
 
-.mind-map-container::-webkit-scrollbar-track {
-    background: var(--surface-color);
-    border-radius: 6px;
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 10px;
 }
 
-.mind-map-container::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
-    border-radius: 6px;
-    border: 2px solid var(--surface-color);
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
 }
 
-.mind-map-container::-webkit-scrollbar-thumb:hover {
-    background: var(--secondary-color);
+/* تأثيرات التركيز */
+.focus-mode .node-3d:not(.focused) {
+    opacity: 0.3;
+    filter: blur(2px);
+    transform: scale(0.95);
 }
 
-/* تحسينات للأجهزة التي تدعم اللمس */
-@media (hover: none) {
-    .side-btn {
-        opacity: 1;
-    }
-    
-    .mind-node:hover {
-        transform: none;
-    }
+.focus-mode .connection-3d:not(.focused) {
+    opacity: 0.2;
+}
+
+/* أنماط العقد الخاصة */
+.node-central {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+.node-central .node-text {
+    color: white;
+    font-weight: 700;
+}
+
+.node-branch {
+    background: linear-gradient(135deg, #48bb78, #38a169);
+}
+
+.node-branch .node-text {
+    color: white;
+}
+
+.node-leaf {
+    background: linear-gradient(135deg, #ed8936, #dd6b20);
+}
+
+.node-leaf .node-text {
+    color: white;
 }
