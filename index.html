@@ -3,33 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الخريطة الذهنية ثلاثية الأبعاد</title>
+    <title>الخريطة الذهنية ثلاثية الأبعاد - مساحة لا نهائية</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- شريط الأدوات -->
-    <div class="toolbar">
-        <button id="addNode" onclick="addNewNode()">➕ إضافة مستطيل</button>
-        <button id="saveMap" onclick="saveMap()">💾 حفظ الخريطة</button>
-        <button id="loadMap" onclick="loadMap()">📂 تحميل الخريطة</button>
-        <button id="reset" onclick="resetMap()">🔄 بدء من جديد</button>
-    </div>
-
-    <!-- منطقة الخريطة -->
-    <div id="mindMap" class="mind-map-container">
-        <!-- المستطيلات ستضاف هنا ديناميكياً -->
-    </div>
-
-    <!-- نافذة النص -->
-    <div id="textModal" class="modal">
-        <div class="modal-content">
-            <h3>أضف نصك</h3>
-            <textarea id="nodeText" placeholder="اكتب نصك هنا..."></textarea>
-            <button onclick="saveText()">حفظ</button>
-            <button onclick="closeModal()">إلغاء</button>
+    <!-- شريط التحكم العلوي -->
+    <div class="control-bar">
+        <div class="controls-left">
+            <button id="toggleView" class="control-btn view-mode" title="تبديل وضع العرض">
+                <span class="icon">👁️</span>
+                <span class="text">وضع العرض</span>
+            </button>
+            <button id="saveMap" class="control-btn save-btn" title="حفظ الخريطة">
+                <span class="icon">💾</span>
+                <span class="text">حفظ</span>
+            </button>
+            <button id="loadMap" class="control-btn load-btn" title="تحميل الخريطة">
+                <span class="icon">📂</span>
+                <span class="text">تحميل</span>
+            </button>
+        </div>
+        <div class="controls-right">
+            <button id="resetMap" class="control-btn reset-btn" title="بدء من جديد">
+                <span class="icon">🔄</span>
+                <span class="text">جديد</span>
+            </button>
+            <button id="zoomIn" class="control-btn zoom-in" title="تكبير">
+                <span class="icon">➕</span>
+            </button>
+            <button id="zoomOut" class="control-btn zoom-out" title="تصغير">
+                <span class="icon">➖</span>
+            </button>
+            <div class="zoom-level">100%</div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- المساحة الرئيسية للخريطة -->
+    <div id="mindMapContainer" class="mind-map-container">
+        <div id="mindMap" class="mind-map">
+            <!-- المستطيلات ستضاف هنا ديناميكياً -->
+        </div>
+    </div>
+
+    <!-- نافذة الإعدادات -->
+    <div id="settingsPanel" class="settings-panel">
+        <h3>إعدادات الخريطة</h3>
+        <div class="setting-group">
+            <label>لون الخلفية:</label>
+            <input type="color" id="bgColor" value="#1e1e2e">
+        </div>
+        <div class="setting-group">
+            <label>نمط الأسلاك:</label>
+            <select id="wireStyle">
+                <option value="solid">صلب</option>
+                <option value="dashed">منقط</option>
+                <option value="dotted">نقاط</option>
+            </select>
+        </div>
+        <button id="closeSettings" class="close-btn">✕</button>
+    </div>
+
+    <!-- تأثيرات الانفجار -->
+    <div id="explosionEffect" class="explosion-effect"></div>
+
+    <script src="js/vector2d.js"></script>
+    <script src="js/node.js"></script>
+    <script src="js/connection.js"></script>
+    <script src="js/mindMap.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
